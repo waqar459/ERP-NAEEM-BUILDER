@@ -287,36 +287,36 @@ Regards, Hamaz Aftab & Anum Shahid, Shared Services Group, United Bank Limited.`
           onClose();
         }
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm cursor-default"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 backdrop-blur-sm cursor-default"
     >
-      <div className="bg-slate-900 border border-slate-800 w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
-        {/* Modal Top Header */}
-        <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/70">
+      <div className="light-modal-container bg-white border border-slate-200 w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] text-slate-800">
+        {/* Modal Top Header (Matching #003366 Navy Top Navbar) */}
+        <div className="modal-top-bar p-4 sm:p-5 border-b border-sky-950 flex items-center justify-between bg-[#003366] text-white">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-amber-500/15 text-amber-400 border border-amber-500/25">
+            <div className="p-2.5 rounded-xl bg-white/10 text-sky-300 border border-white/20">
               <Wrench className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 {isProvisional ? (
-                  <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                  <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-sky-400/20 text-sky-200 border border-sky-300/40">
                     PENDING TICKET # • UBL Branch {ticket.ublBranchCode || branch.code}
                   </span>
                 ) : (
-                  <span className="font-mono text-sm font-bold text-amber-400">{ticket.ticketNumber}</span>
+                  <span className="font-mono text-sm font-bold text-white bg-white/15 px-2 py-0.5 rounded border border-white/20">{ticket.ticketNumber}</span>
                 )}
-                <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-medium">
+                <span className="text-xs px-2 py-0.5 rounded-full bg-white/15 text-white font-medium">
                   {ticket.priority} Priority
                 </span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30">
                   {ticket.status}
                 </span>
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 font-mono font-bold">
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-sky-400/20 text-sky-200 border border-sky-300/30 font-mono font-bold">
                   {ticket.complaintType || ticket.bankComplaintDetails?.complaintType || `${ticket.category} Maintenance`}
                 </span>
               </div>
-              <h2 className="text-base font-bold text-white tracking-tight mt-0.5">{ticket.title}</h2>
-              <p className="text-xs text-slate-400">
+              <h2 className="text-base sm:text-lg font-bold text-white tracking-tight mt-1">{ticket.title}</h2>
+              <p className="text-xs text-sky-200/90 subtle">
                 United Bank Limited • {ticket.branchName} (Code: {ticket.ublBranchCode || branch.code}) • BOM: {ticket.reportedBy}
               </p>
             </div>
@@ -325,14 +325,14 @@ Regards, Hamaz Aftab & Anum Shahid, Shared Services Group, United Bank Limited.`
           <div className="flex items-center gap-2">
             <button
               onClick={() => advanceTicketStatus(ticket.id)}
-              className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-sm shadow-amber-500/20"
+              className="px-3.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-sm shadow-amber-400/20"
             >
               <span>Advance Workflow</span>
               <span>→</span>
             </button>
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+              className="p-2 text-white/80 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -341,22 +341,22 @@ Regards, Hamaz Aftab & Anum Shahid, Shared Services Group, United Bank Limited.`
 
         {/* Provisional Branch-First Banner */}
         {isProvisional && (
-          <div className="bg-gradient-to-r from-cyan-950/80 via-slate-900 to-cyan-950/80 border-b border-cyan-500/40 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-sky-50 border-b border-sky-200 px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-slate-800">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              <div className="p-2 rounded-lg bg-sky-100 text-sky-700 border border-sky-200">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-cyan-300 uppercase tracking-wide">
+                  <span className="text-xs font-bold text-sky-900 uppercase tracking-wide">
                     Branch-First Estimate (Ticket Pending)
                   </span>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-900/60 text-cyan-200 font-mono font-bold">
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-sky-200 text-sky-950 font-mono font-bold">
                     UBL Branch Code: {ticket.ublBranchCode || branch.code}
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-300 mt-0.5">
-                  Provisional Code: <strong className="text-cyan-400 font-mono">{ticket.provisionalEstimateCode || ticket.id}</strong> • Official ticket number is issued afterward by UBL HERE4U desk.
+                <p className="text-[11px] text-slate-600 mt-0.5">
+                  Provisional Code: <strong className="text-sky-800 font-mono">{ticket.provisionalEstimateCode || ticket.id}</strong> • Official ticket number is issued afterward by UBL HERE4U desk.
                 </p>
               </div>
             </div>
@@ -376,12 +376,12 @@ Regards, Hamaz Aftab & Anum Shahid, Shared Services Group, United Bank Limited.`
                 placeholder="Enter UBL Ticket # (e.g. 125890)"
                 value={inputOfficialTicketNum}
                 onChange={(e) => setInputOfficialTicketNum(e.target.value)}
-                className="bg-slate-950 border border-cyan-500/50 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-cyan-400"
+                className="bg-white border border-sky-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 font-mono focus:outline-none focus:border-sky-500"
               />
               <button
                 type="submit"
                 disabled={!inputOfficialTicketNum.trim()}
-                className="px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-all disabled:opacity-50 shadow-md shadow-cyan-500/20 whitespace-nowrap cursor-pointer"
+                className="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs transition-all disabled:opacity-50 shadow-sm whitespace-nowrap cursor-pointer"
               >
                 Link Official Ticket #
               </button>
@@ -390,15 +390,15 @@ Regards, Hamaz Aftab & Anum Shahid, Shared Services Group, United Bank Limited.`
         )}
 
         {/* Tab Navigation */}
-        <div className="border-b border-slate-800 bg-slate-950/40 px-4 overflow-x-auto flex space-x-1 scrollbar-none">
+        <div className="modal-tabs-bar border-b border-slate-200 bg-slate-100 px-4 overflow-x-auto flex space-x-1 scrollbar-none">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`py-2.5 px-3 text-xs font-semibold whitespace-nowrap border-b-2 transition-all ${
+              className={`py-2.5 px-3 text-xs font-semibold whitespace-nowrap border-b-2 transition-all cursor-pointer ${
                 activeTab === tab.id
-                  ? 'border-amber-400 text-amber-400'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-blue-600 text-blue-700 bg-white font-bold shadow-xs'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
               }`}
             >
               {tab.label}
@@ -407,7 +407,7 @@ Regards, Hamaz Aftab & Anum Shahid, Shared Services Group, United Bank Limited.`
         </div>
 
         {/* Tab Content Body */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
+        <div className="modal-body-area flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 bg-slate-50">
           {/* TAB 1: OVERVIEW */}
           {activeTab === 'OVERVIEW' && (
             <div className="space-y-4">

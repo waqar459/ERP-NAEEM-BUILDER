@@ -690,29 +690,702 @@ export const SimpleSubViewRouter: React.FC<SimpleSubViewProps> = ({
     );
   }
 
-  // Generic SubView for all remaining operational sections
-  return (
-    <div className="space-y-4">
-      <SubViewHeader
-        title={navTab.replace(/_/g, ' ')}
-        subtitle={`Operational management for ${navTab.replace(/_/g, ' ').toLowerCase()} within Naeem Builder HERE4U ERP.`}
-        onBack={onBackToDashboard}
-      />
-      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm text-center">
-        <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#003366] flex items-center justify-center mx-auto mb-3">
-          <FileText className="w-6 h-6" />
+  // UBL Approvals
+  if (navTab === 'UBL_APPROVALS') {
+    const approvals = [
+      { id: 'APP-123913', ticket: 'TCK-123913', branch: 'UBL Burki Branch (640)', amount: 'Rs. 98,600', officer: 'Tariq Mehmood (Ops Sanction)', status: 'Approved', date: '11/09/2026', color: 'bg-emerald-100 text-emerald-800' },
+      { id: 'APP-126503', ticket: 'TCK-126503', branch: 'UBL Mall Road (0108)', amount: 'Rs. 168,200', officer: 'Zubair Shah (HERE4U Lead)', status: 'Approved', date: '12/09/2026', color: 'bg-emerald-100 text-emerald-800' },
+      { id: 'APP-128944', ticket: 'TCK-128944', branch: 'UBL Ferozepur Road (0422)', amount: 'Rs. 67,280', officer: 'Pending Regional Approver', status: 'Under Review', date: '13/09/2026', color: 'bg-amber-100 text-amber-800' },
+      { id: 'APP-129100', ticket: 'TCK-129100', branch: 'UBL Gujranwala (0315)', amount: 'Rs. 214,000', officer: 'Accounts Dept Audit', status: 'Pending Sanction', date: '14/09/2026', color: 'bg-rose-100 text-rose-700' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title="UBL Approvals & Sanction Letters"
+          subtitle="Section 5 official financial approvals received from UBL Operations & Administration."
+          badge={approvals.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">Approval Ref</th>
+                <th className="py-3 px-4">Ticket</th>
+                <th className="py-3 px-4">Branch</th>
+                <th className="py-3 px-4">Approved Amount</th>
+                <th className="py-3 px-4">Bank Sanction Officer</th>
+                <th className="py-3 px-4">Approval Date</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {approvals.map((app) => (
+                <tr key={app.id} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-blue-600 font-mono">{app.id}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800">{app.ticket}</td>
+                  <td className="py-3 px-4">{app.branch}</td>
+                  <td className="py-3 px-4 font-bold text-slate-900">{app.amount}</td>
+                  <td className="py-3 px-4">{app.officer}</td>
+                  <td className="py-3 px-4 text-slate-500 font-mono">{app.date}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${app.color}`}>{app.status}</span>
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => tickets[0] && onSelectTicket(tickets[0].id)}
+                      className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs cursor-pointer"
+                    >
+                      View Job
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <h3 className="text-base font-bold text-slate-900 mb-1">{navTab.replace(/_/g, ' ')} Active Operations</h3>
-        <p className="text-xs text-slate-500 max-w-md mx-auto mb-4">
-          All records, assignments, and approvals for this module are synchronized with the central database and UBL branch network.
-        </p>
-        <button
-          onClick={onBackToDashboard}
-          className="px-4 py-2 rounded-lg bg-[#003366] hover:bg-[#002244] text-white text-xs font-semibold cursor-pointer shadow"
-        >
-          Return to Dashboard
-        </button>
       </div>
-    </div>
-  );
+    );
+  }
+
+  // Purchase Requests
+  if (navTab === 'PURCHASE_REQUESTS') {
+    const prs = [
+      { id: 'PR-2024-001', job: 'NB-2024-001', branch: 'Burki (640)', items: 'Cement (20 Bags), Sand (1 Trolley), SS Railing (24 Rft)', cost: 'Rs. 42,500', requestedBy: 'Zahid Hussain (Mason)', status: 'Approved', color: 'bg-emerald-100 text-emerald-800' },
+      { id: 'PR-2024-002', job: 'NB-2024-002', branch: 'Gujranwala (0315)', items: 'Porcelain Floor Tiles (120 Sft), Tile Bond (8 Bags)', cost: 'Rs. 68,000', requestedBy: 'Imran Ali (Tile Tech)', status: 'PO Issued', color: 'bg-blue-100 text-blue-700' },
+      { id: 'PR-2024-003', job: 'NB-2024-004', branch: 'Islamabad (0215)', items: 'PPRC Pipes, CP Fittings, Gate Valves (3 Nos)', cost: 'Rs. 24,000', requestedBy: 'Nasir Abbas (Plumber)', status: 'Pending Approval', color: 'bg-amber-100 text-amber-800' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title="Purchase Requests & Material Requisitions"
+          subtitle="Section 6 site material requests linked to approved job tickets."
+          badge={prs.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">PR #</th>
+                <th className="py-3 px-4">Job ID</th>
+                <th className="py-3 px-4">Branch</th>
+                <th className="py-3 px-4">Material / Items Required</th>
+                <th className="py-3 px-4">Est. Cost</th>
+                <th className="py-3 px-4">Requested By</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {prs.map((pr) => (
+                <tr key={pr.id} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-blue-600 font-mono">{pr.id}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800">{pr.job}</td>
+                  <td className="py-3 px-4">{pr.branch}</td>
+                  <td className="py-3 px-4 max-w-xs">{pr.items}</td>
+                  <td className="py-3 px-4 font-bold text-slate-900">{pr.cost}</td>
+                  <td className="py-3 px-4 font-medium">{pr.requestedBy}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${pr.color}`}>{pr.status}</span>
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => tickets[0] && onSelectTicket(tickets[0].id)}
+                      className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs cursor-pointer"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Procurement & Purchase Orders
+  if (navTab === 'PROCUREMENT') {
+    const pos = [
+      { id: 'PO-2024-001', pr: 'PR-2024-001', vendor: 'Al-Madina Building Materials', amount: 'Rs. 42,500', date: '12/09/2026', delivery: 'Delivered to Site', status: 'Received' },
+      { id: 'PO-2024-002', pr: 'PR-2024-002', vendor: 'Master Ceramic & Tiles Ltd', amount: 'Rs. 68,000', date: '13/09/2026', delivery: 'In Transit', status: 'Dispatched' },
+      { id: 'PO-2024-003', pr: 'PR-2024-003', vendor: 'Haier Authorized HVAC Parts', amount: 'Rs. 38,000', date: '14/09/2026', delivery: 'Awaiting Pickup', status: 'PO Issued' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title="Procurement & Purchase Orders"
+          subtitle="Direct purchase orders issued to verified vendors with Goods Receipt Notes (GRN)."
+          badge={pos.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">PO Number</th>
+                <th className="py-3 px-4">PR Ref</th>
+                <th className="py-3 px-4">Vendor</th>
+                <th className="py-3 px-4">PO Amount</th>
+                <th className="py-3 px-4">Order Date</th>
+                <th className="py-3 px-4">Site Delivery</th>
+                <th className="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {pos.map((p) => (
+                <tr key={p.id} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-blue-600 font-mono">{p.id}</td>
+                  <td className="py-3 px-4 font-medium">{p.pr}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800">{p.vendor}</td>
+                  <td className="py-3 px-4 font-bold text-slate-900">{p.amount}</td>
+                  <td className="py-3 px-4 text-slate-500 font-mono">{p.date}</td>
+                  <td className="py-3 px-4 text-slate-600">{p.delivery}</td>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">{p.status}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Staff Master
+  if (navTab === 'STAFF_MASTER') {
+    const staffMembers = [
+      { name: 'Muhammad Rashid', trade: 'Senior MEP Electrician', phone: '0312-9876543', city: 'Lahore', status: 'Active on Site', jobs: 3 },
+      { name: 'Sajid Mehmood', trade: 'Field Electrician', phone: '0304-5544332', city: 'Lahore', status: 'Active on Site', jobs: 2 },
+      { name: 'Muhammad Akram', trade: 'Master Painter & Surface Specialist', phone: '0321-7654321', city: 'Lahore', status: 'Active on Site', jobs: 4 },
+      { name: 'Tariq Bashir', trade: 'Commercial Surface Painter', phone: '0345-8877665', city: 'Gujranwala', status: 'Available', jobs: 1 },
+      { name: 'Asif Ali', trade: 'HVAC & Chiller Tech', phone: '0333-1122334', city: 'Lahore', status: 'Active on Site', jobs: 5 },
+      { name: 'Zahid Hussain', trade: 'Civil Mason & Tile Worker', phone: '0315-4433221', city: 'Lahore', status: 'Active on Site', jobs: 3 },
+      { name: 'Engr. Imran', trade: 'Field Project Supervisor', phone: '0300-1234567', city: 'Lahore / Punjab', status: 'On Site Inspection', jobs: 8 },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title="Staff Master & Field Technicians"
+          subtitle="Section 7 trade allocation roster: Electricians, Painters, HVAC techs, and Civil masons."
+          badge={staffMembers.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">Staff Name</th>
+                <th className="py-3 px-4">Trade & Specialization</th>
+                <th className="py-3 px-4">Contact Phone</th>
+                <th className="py-3 px-4">Base City</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-right">Assigned Jobs</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {staffMembers.map((s, i) => (
+                <tr key={i} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-slate-900">{s.name}</td>
+                  <td className="py-3 px-4 font-medium text-slate-700">{s.trade}</td>
+                  <td className="py-3 px-4 font-mono text-slate-500">{s.phone}</td>
+                  <td className="py-3 px-4">{s.city}</td>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">{s.status}</span>
+                  </td>
+                  <td className="py-3 px-4 text-right font-bold text-blue-600 font-mono">{s.jobs} Active</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Staff Assignment
+  if (navTab === 'STAFF_ASSIGNMENT') {
+    const assignments = [
+      { staff: 'Muhammad Rashid (Electrician)', job: 'NB-2024-001', branch: 'UBL Burki (640)', trade: 'Electrical', assignedDate: '14 Dec 2024', status: 'Assigned' },
+      { staff: 'Zahid Hussain (Mason)', job: 'NB-2024-001', branch: 'UBL Burki (640)', trade: 'Civil Work', assignedDate: '14 Dec 2024', status: 'Working on Site' },
+      { staff: 'Asif Ali (HVAC)', job: 'NB-2024-002', branch: 'UBL Gujranwala (0315)', trade: 'HVAC', assignedDate: '13 Dec 2024', status: 'Survey Done' },
+      { staff: 'Muhammad Akram (Painter)', job: 'NB-2024-005', branch: 'UBL Faisalabad (0510)', trade: 'Painting', assignedDate: '12 Dec 2024', status: 'Completed' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title="Staff Assignment & Work Orders"
+          subtitle="Assign qualified technicians to branch tickets with automated SMS / dispatch notifications."
+          badge={assignments.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">Staff Member</th>
+                <th className="py-3 px-4">Assigned Job</th>
+                <th className="py-3 px-4">Target Branch</th>
+                <th className="py-3 px-4">Trade</th>
+                <th className="py-3 px-4">Assignment Date</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {assignments.map((a, i) => (
+                <tr key={i} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-slate-900">{a.staff}</td>
+                  <td className="py-3 px-4 font-semibold text-blue-600">{a.job}</td>
+                  <td className="py-3 px-4">{a.branch}</td>
+                  <td className="py-3 px-4">{a.trade}</td>
+                  <td className="py-3 px-4 text-slate-500 font-mono">{a.assignedDate}</td>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700">{a.status}</span>
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => tickets[0] && onSelectTicket(tickets[0].id)}
+                      className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs cursor-pointer"
+                    >
+                      View Ticket
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Staff Attendance & GPS Field
+  if (navTab === 'STAFF_ATTENDANCE' || navTab === 'GPS_FIELD') {
+    const attendance = [
+      { staff: 'Muhammad Rashid', trade: 'Electrician', branch: 'UBL Burki Branch (640)', time: '08:45 AM', gps: 'Verified (14m)', status: 'Present on Site', color: 'bg-emerald-100 text-emerald-800' },
+      { staff: 'Zahid Hussain', trade: 'Mason', branch: 'UBL Burki Branch (640)', time: '09:05 AM', gps: 'Verified (18m)', status: 'Present on Site', color: 'bg-emerald-100 text-emerald-800' },
+      { staff: 'Asif Ali', trade: 'HVAC Tech', branch: 'UBL Gujranwala (0315)', time: '09:30 AM', gps: 'Verified (24m)', status: 'Present on Site', color: 'bg-emerald-100 text-emerald-800' },
+      { staff: 'Tariq Bashir', trade: 'Painter', branch: 'En Route', time: '10:00 AM', gps: 'Traveling', status: 'In Transit', color: 'bg-blue-100 text-blue-700' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title={navTab === 'GPS_FIELD' ? 'GPS Proximity & Field Tracking' : 'Daily Staff Attendance & Roster'}
+          subtitle="Real-time geo-fenced check-ins within 200m radius of UBL branch coordinates."
+          badge={attendance.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">Staff Member</th>
+                <th className="py-3 px-4">Trade</th>
+                <th className="py-3 px-4">Target Branch</th>
+                <th className="py-3 px-4">Check-In Time</th>
+                <th className="py-3 px-4">GPS Proximity Check</th>
+                <th className="py-3 px-4">Attendance State</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {attendance.map((att, i) => (
+                <tr key={i} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-slate-900">{att.staff}</td>
+                  <td className="py-3 px-4">{att.trade}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800">{att.branch}</td>
+                  <td className="py-3 px-4 text-slate-500 font-mono">{att.time}</td>
+                  <td className="py-3 px-4 font-medium text-emerald-700">✓ {att.gps}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${att.color}`}>{att.status}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Vehicles & Travel / Mileage
+  if (navTab === 'VEHICLES') {
+    const vehicles = [
+      { id: 'LEA-4521', type: 'Maintenance Van', assigned: 'Engr. Imran (Supervisor)', startKm: 42100, endKm: 42185, distance: '85 KM', fuel: 'Rs. 2,975', route: 'Garden Town → Burki → Mall Road' },
+      { id: 'LHR-8910', type: 'Motorcycle', assigned: 'Muhammad Rashid (Electrician)', startKm: 18230, endKm: 18268, distance: '38 KM', fuel: 'Rs. 950', route: 'Head Office → Ferozepur Road' },
+      { id: 'GA-7721', type: 'Motorcycle', assigned: 'Asif Ali (HVAC)', startKm: 12450, endKm: 12512, distance: '62 KM', fuel: 'Rs. 1,550', route: 'Gujranwala Hub → Daska Branch' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title="Vehicles, Mileage & Fuel Allowances"
+          subtitle="Section 14 vehicle logs with automated route calculation and Rs. 35/KM motorcycle / van rates."
+          badge={vehicles.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">Vehicle No</th>
+                <th className="py-3 px-4">Type</th>
+                <th className="py-3 px-4">Driver / Technician</th>
+                <th className="py-3 px-4">Start KM</th>
+                <th className="py-3 px-4">End KM</th>
+                <th className="py-3 px-4">Distance</th>
+                <th className="py-3 px-4">Fuel Claim</th>
+                <th className="py-3 px-4">Branch Route Visited</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {vehicles.map((v) => (
+                <tr key={v.id} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-blue-600 font-mono">{v.id}</td>
+                  <td className="py-3 px-4">{v.type}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800">{v.assigned}</td>
+                  <td className="py-3 px-4 font-mono text-slate-500">{v.startKm}</td>
+                  <td className="py-3 px-4 font-mono text-slate-500">{v.endKm}</td>
+                  <td className="py-3 px-4 font-bold text-slate-900">{v.distance}</td>
+                  <td className="py-3 px-4 font-bold text-emerald-700">{v.fuel}</td>
+                  <td className="py-3 px-4 text-slate-600">{v.route}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Work Orders & Work Execution
+  if (navTab === 'WORK_ORDERS' || navTab === 'WORK_EXECUTION') {
+    const workOrders = [
+      { id: 'WO-2024-001', job: 'NB-2024-001', branch: 'Burki (640)', scope: 'Ramp Reconstruction & SS Handrail', lead: 'Zahid Hussain', progress: 70, status: 'In Progress' },
+      { id: 'WO-2024-002', job: 'NB-2024-002', branch: 'Gujranwala (0315)', scope: 'Banking Hall Tile Replacement', lead: 'Imran Ali', progress: 30, status: 'Material Delivered' },
+      { id: 'WO-2024-005', job: 'NB-2024-005', branch: 'Faisalabad (0510)', scope: 'Exterior Elevation Painting', lead: 'Muhammad Akram', progress: 100, status: 'Work Completed' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title={navTab === 'WORK_EXECUTION' ? 'Work Execution & Site Progress' : 'Work Orders Issued to Teams'}
+          subtitle="Section 8 & 9 site execution logs with progress percentage and safety compliance."
+          badge={workOrders.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">WO Number</th>
+                <th className="py-3 px-4">Job ID</th>
+                <th className="py-3 px-4">Branch</th>
+                <th className="py-3 px-4">Scope Summary</th>
+                <th className="py-3 px-4">Team Lead</th>
+                <th className="py-3 px-4">Progress</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {workOrders.map((wo) => (
+                <tr key={wo.id} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-blue-600 font-mono">{wo.id}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800">{wo.job}</td>
+                  <td className="py-3 px-4">{wo.branch}</td>
+                  <td className="py-3 px-4 max-w-xs">{wo.scope}</td>
+                  <td className="py-3 px-4 font-medium">{wo.lead}</td>
+                  <td className="py-3 px-4">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[11px] font-bold">{wo.progress}%</span>
+                      <div className="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                        <div className="h-full rounded-full bg-emerald-500" style={{ width: `${wo.progress}%` }} />
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700">{wo.status}</span>
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => tickets[0] && onSelectTicket(tickets[0].id)}
+                      className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs cursor-pointer"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Work Completion & Ticket Closure
+  if (navTab === 'WORK_COMPLETION' || navTab === 'TICKET_CLOSURE') {
+    const completions = [
+      { id: 'CC-2024-001', job: 'NB-2024-005', branch: 'UBL Faisalabad (0510)', work: 'Exterior Elevation Painting', bomSign: 'Signed & Stamped (Farooq Ahmed BOM)', photos: 'Before / After Verified', status: 'Ready for Invoicing' },
+      { id: 'CC-2024-002', job: 'NB-2024-001', branch: 'UBL Burki (640)', work: 'Anti-Slip Masonry Ramp Reconstruction', bomSign: 'Signed & Stamped (Ali yousaf BOM)', photos: 'Before / After Verified', status: 'Closed' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title={navTab === 'TICKET_CLOSURE' ? 'Ticket Closure & Quality Sign-Off' : 'Work Completion Certificates'}
+          subtitle="Section 10 completion certificates signed & stamped by Branch Operations Managers."
+          badge={completions.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">Certificate #</th>
+                <th className="py-3 px-4">Job ID</th>
+                <th className="py-3 px-4">Branch</th>
+                <th className="py-3 px-4">Work Performed</th>
+                <th className="py-3 px-4">Branch Manager Sign-Off</th>
+                <th className="py-3 px-4">Audit Photos</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {completions.map((cc) => (
+                <tr key={cc.id} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-blue-600 font-mono">{cc.id}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800">{cc.job}</td>
+                  <td className="py-3 px-4">{cc.branch}</td>
+                  <td className="py-3 px-4 max-w-xs">{cc.work}</td>
+                  <td className="py-3 px-4 font-medium text-emerald-800">✓ {cc.bomSign}</td>
+                  <td className="py-3 px-4 text-slate-600">{cc.photos}</td>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">{cc.status}</span>
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => tickets[0] && onSelectTicket(tickets[0].id)}
+                      className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs cursor-pointer"
+                    >
+                      View Dossier
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Tax Deduction, UBL Account Submission, Bank Receipt & Payment Allocation
+  if (navTab === 'TAX_DEDUCTION' || navTab === 'UBL_ACCOUNT_SUBMISSION' || navTab === 'BANK_RECEIPT' || navTab === 'PAYMENT_ALLOCATION') {
+    const receipts = [
+      { ref: 'UBL-TRF-001', date: '12 Dec 2024', amount: 'Rs. 650,000', praTax: 'Rs. 104,000 (16%)', wht: 'Rs. 91,000 (14%)', net: 'Rs. 455,000', account: 'Naeem Builder A/C # 12049210', status: 'Allocated' },
+      { ref: 'UBL-TRF-002', date: '10 Dec 2024', amount: 'Rs. 420,000', praTax: 'Rs. 67,200 (16%)', wht: 'Rs. 58,800 (14%)', net: 'Rs. 294,000', account: 'Naeem Builder A/C # 12049210', status: 'Allocated' },
+      { ref: 'UBL-TRF-003', date: '05 Dec 2024', amount: 'Rs. 780,000', praTax: 'Rs. 124,800 (16%)', wht: 'Rs. 109,200 (14%)', net: 'Rs. 546,000', account: 'Naeem Builder A/C # 12049210', status: 'Pending Allocation' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title={navTab === 'TAX_DEDUCTION' ? 'Tax Deduction & Withholding (PRA / SRB)' : navTab === 'BANK_RECEIPT' ? 'Bank Receipts & UBL Payments' : navTab === 'PAYMENT_ALLOCATION' ? 'Payment Allocation & Ledger' : 'UBL Account Office Dossier Submissions'}
+          subtitle="Section 12, 13 & 15 financial settlement: 16% PRA withholding tax certificates, FBR credit advice, and online bank payments."
+          badge={receipts.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">Transfer Reference</th>
+                <th className="py-3 px-4">Payment Date</th>
+                <th className="py-3 px-4">Gross Billed</th>
+                <th className="py-3 px-4">PRA 16% Withheld</th>
+                <th className="py-3 px-4">Income Tax 14% WHT</th>
+                <th className="py-3 px-4">Net Deposited</th>
+                <th className="py-3 px-4">Beneficiary Bank Account</th>
+                <th className="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {receipts.map((r) => (
+                <tr key={r.ref} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-blue-600 font-mono">{r.ref}</td>
+                  <td className="py-3 px-4 text-slate-500 font-mono">{r.date}</td>
+                  <td className="py-3 px-4 font-bold text-slate-900">{r.amount}</td>
+                  <td className="py-3 px-4 text-rose-700 font-medium">{r.praTax}</td>
+                  <td className="py-3 px-4 text-rose-700 font-medium">{r.wht}</td>
+                  <td className="py-3 px-4 font-bold text-emerald-700">{r.net}</td>
+                  <td className="py-3 px-4 text-slate-600">{r.account}</td>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">{r.status}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Job Expenses, Staff Advances & Expense Approval
+  if (navTab === 'JOB_EXPENSES' || navTab === 'STAFF_ADVANCES' || navTab === 'EXPENSE_APPROVAL') {
+    const claims = [
+      { id: 'EXP-101', staff: 'Muhammad Rashid', job: 'NB-2024-001', branch: 'Burki (640)', category: 'Local Consumables (PVC Tape, Screws)', amount: 'Rs. 1,450', receipt: 'Voucher Attached', status: 'Approved' },
+      { id: 'EXP-102', staff: 'Zahid Hussain', job: 'NB-2024-001', branch: 'Burki (640)', category: 'Masonry Tools & Drill Bits', amount: 'Rs. 3,200', receipt: 'Receipt # 4410', status: 'Approved' },
+      { id: 'EXP-103', staff: 'Asif Ali', job: 'NB-2024-002', branch: 'Gujranwala (0315)', category: 'Emergency Refrigerant Gas R410A', amount: 'Rs. 8,500', receipt: 'Invoice Attached', status: 'Pending Approval' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title={navTab === 'STAFF_ADVANCES' ? 'Staff Advances & Petty Cash' : navTab === 'EXPENSE_APPROVAL' ? 'Expense Claim Approval Center' : 'Field Job Expenses & Direct Costs'}
+          subtitle="Section 14 job expenses audited against site photo receipts and technician vouchers."
+          badge={claims.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">Expense ID</th>
+                <th className="py-3 px-4">Technician</th>
+                <th className="py-3 px-4">Job ID</th>
+                <th className="py-3 px-4">Branch</th>
+                <th className="py-3 px-4">Category & Purpose</th>
+                <th className="py-3 px-4">Amount</th>
+                <th className="py-3 px-4">Audit Proof</th>
+                <th className="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {claims.map((c) => (
+                <tr key={c.id} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-blue-600 font-mono">{c.id}</td>
+                  <td className="py-3 px-4 font-bold text-slate-900">{c.staff}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800">{c.job}</td>
+                  <td className="py-3 px-4">{c.branch}</td>
+                  <td className="py-3 px-4">{c.category}</td>
+                  <td className="py-3 px-4 font-bold text-slate-900">{c.amount}</td>
+                  <td className="py-3 px-4 text-slate-500">{c.receipt}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${c.status === 'Approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>{c.status}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Documents Repository
+  if (navTab === 'DOCUMENTS') {
+    const docs = [
+      { name: 'Official Quotation # Q-2024-123913.pdf', type: 'Official Estimate', size: '245 KB', date: '11/09/2026', branch: 'Burki Branch (640)' },
+      { name: 'Delivery Note DN-2024-001 (Branch Stamped).pdf', type: 'Delivery Note', size: '410 KB', date: '14/09/2026', branch: 'Burki Branch (640)' },
+      { name: 'Completion Certificate CC-2024-001.pdf', type: 'Completion Certificate', size: '180 KB', date: '14/09/2026', branch: 'Faisalabad Branch (0510)' },
+      { name: 'Sales Tax Invoice INV-1001.pdf', type: 'Tax Invoice', size: '320 KB', date: '14/09/2026', branch: 'Burki Branch (640)' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title="Documents & PDF Repository"
+          subtitle="All generated official documents with Naeem Builder letterhead, NTN/STRN, and branch manager stamps."
+          badge={docs.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th className="py-3 px-4">Document Title</th>
+                <th className="py-3 px-4">Type</th>
+                <th className="py-3 px-4">Branch</th>
+                <th className="py-3 px-4">File Size</th>
+                <th className="py-3 px-4">Generated Date</th>
+                <th className="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              {docs.map((d, i) => (
+                <tr key={i} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-bold text-slate-900">{d.name}</td>
+                  <td className="py-3 px-4 font-medium text-blue-600">{d.type}</td>
+                  <td className="py-3 px-4">{d.branch}</td>
+                  <td className="py-3 px-4 font-mono text-slate-500">{d.size}</td>
+                  <td className="py-3 px-4 font-mono text-slate-500">{d.date}</td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => tickets[0] && onSelectTicket(tickets[0].id)}
+                      className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs cursor-pointer"
+                    >
+                      Open PDF
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Notifications & Audit Trail
+  if (navTab === 'NOTIFICATIONS') {
+    const alerts = [
+      { action: 'Delivery Note Stamped', desc: 'BOM Ali yousaf signed & stamped hard copy for Burki Branch 640.', time: '10 mins ago', type: 'info' },
+      { action: 'Quotation Approved', desc: 'UBL Operations approved Estimate # Q-2024-123913 for Rs. 98,600.', time: '1 hour ago', type: 'success' },
+      { action: 'GPS Check-In Verified', desc: 'Muhammad Rashid checked in within 14m of Burki Branch coordinates.', time: '2 hours ago', type: 'gps' },
+      { action: 'New Complaint Parsed', desc: 'Auto-parsed Complaint #126503 from here4u@ubl.com.pk (Mall Road 0108).', time: 'Yesterday', type: 'ticket' },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <SubViewHeader
+          title="Notifications & System Audit Trail"
+          subtitle="Section 16 immutable audit log recording all workflow transitions, GPS events, and approvals."
+          badge={alerts.length}
+          onBack={onBackToDashboard}
+        />
+        <div className="space-y-2.5">
+          {alerts.map((al, idx) => (
+            <div key={idx} className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs">
+                  ✓
+                </div>
+                <div>
+                  <div className="font-bold text-xs text-slate-900">{al.action}</div>
+                  <div className="text-xs text-slate-500">{al.desc}</div>
+                </div>
+              </div>
+              <div className="text-[11px] text-slate-400 font-mono shrink-0">{al.time}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return null;
 };

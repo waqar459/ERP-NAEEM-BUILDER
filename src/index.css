@@ -64,3 +64,103 @@
     break-inside: avoid !important;
   }
 }
+
+/* ============================================================
+   LIGHT MODAL THEME (Matching White Front View)
+   ============================================================ */
+.light-modal-container {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+  border-color: #e2e8f0 !important;
+}
+
+.light-modal-container .modal-top-bar {
+  background-color: #003366 !important;
+  border-color: #002244 !important;
+  color: #ffffff !important;
+}
+
+.light-modal-container .modal-top-bar * {
+  color: inherit;
+}
+
+.light-modal-container .modal-top-bar p,
+.light-modal-container .modal-top-bar span.subtle {
+  color: #bae6fd !important;
+}
+
+.light-modal-container .modal-tabs-bar {
+  background-color: #f1f5f9 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.light-modal-container .modal-body-area {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+}
+
+/* Override dark cards inside light modal */
+.light-modal-container [class*="bg-slate-950"],
+.light-modal-container [class*="bg-slate-900"] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+.light-modal-container [class*="border-slate-800"],
+.light-modal-container [class*="border-slate-900"] {
+  border-color: #e2e8f0 !important;
+}
+
+.light-modal-container [class*="text-slate-100"],
+.light-modal-container [class*="text-slate-200"],
+.light-modal-container [class*="text-slate-300"] {
+  color: #1e293b !important;
+}
+
+.light-modal-container [class*="text-slate-400"] {
+  color: #64748b !important;
+}
+
+.light-modal-container [class*="text-slate-500"] {
+  color: #475569 !important;
+}
+
+.light-modal-container h2,
+.light-modal-container h3,
+.light-modal-container h4 {
+  color: #0f172a !important;
+}
+
+.light-modal-container .modal-top-bar h2,
+.light-modal-container .modal-top-bar h3 {
+  color: #ffffff !important;
+}
+
+/* Inputs, Selects, and Textareas */
+.light-modal-container input,
+.light-modal-container select,
+.light-modal-container textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light-modal-container input::placeholder,
+.light-modal-container textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Status and Pill Contrast */
+.light-modal-container .badge-amber {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+  border-color: #fde68a !important;
+}
+
+.light-modal-container .badge-cyan {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+  border-color: #bae6fd !important;
+}
+

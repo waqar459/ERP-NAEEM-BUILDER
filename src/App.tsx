@@ -26,7 +26,7 @@ import { ERPTutorialGuideModal } from './components/common/ERPTutorialGuideModal
 function ERPAppContent() {
   const { systemMode, setSystemMode } = useERP();
 
-  // Primary View Mode: defaults to SIMPLE matching user screenshot
+  // Primary View Mode: defaults to SIMPLE
   const [viewMode, setViewMode] = useState<'SIMPLE' | 'ADVANCED'>('SIMPLE');
 
   // Modals state
@@ -140,9 +140,9 @@ function ERPAppContent() {
         </button>
         <button
           onClick={() => setViewMode('SIMPLE')}
-          className="px-3.5 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg transition-all cursor-pointer"
+          className="px-3.5 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold shadow-lg transition-all cursor-pointer border border-slate-700"
         >
-          ✓ Simple Image View
+          Switch to Simple View
         </button>
       </div>
 
