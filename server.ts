@@ -405,23 +405,58 @@ Provide a direct, executive-level summary with relevant metrics, ticket/project 
 
 // Production & Vite Development integration
 async function setupApp() {
-  if (process.env.NODE_ENV !== 'production') {
-    const { createServer: createViteServer } = await import('vite');
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
+  const isProduction = process.env.NODE_ENV === 'production' || !process.env.VITE_DEV_SERVER;
+
+  if (!isProduction) {
+    try {
+      const { createServer: createViteServer } = await import('vite');
+      const vite = await createViteServer({
+        server: { middlewareMode: true },
+        appType: 'spa',
+      });
+      app.use(vite.middlewares);
+    } catch (err) {
+      console.warn('Vite dev middleware error, falling back to static dist:', err);
+      serveStaticDist();
+    }
   } else {
-    const distPath = path.join(process.cwd(), 'dist');
+    serveStaticDist();
+  }
+
+  function serveStaticDist() {
+    // When running bundled server from dist/server.cjs: __dirname is /app/dist
+    // When running from root: process.cwd() is /app
+    const candidateDirs = [
+      path.resolve(__dirname),
+      path.resolve(process.cwd(), 'dist'),
+      path.resolve(__dirname, 'dist')
+    ];
+    const distPath = candidateDirs.find((dir) => {
+      try {
+        return require('fs').existsSync(path.join(dir, 'index.html'));
+      } catch {
+        return false;
+      }
+    }) || path.resolve(process.cwd(), 'dist');
+
+    console.log(`Serving static production files from: ${distPath}`);
     app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+
+    // Express 4/5 compatible SPA fallback that strictly avoids intercepting /api routes
+    app.use((req: Request, res: Response, next) => {
+      if (req.method === 'GET' && !req.path.startsWith('/api')) {
+        return res.sendFile(path.join(distPath, 'index.html'));
+      }
+      next();
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Naeem Builder ERP server active on http://0.0.0.0:${PORT}`);
+  });
+
+  server.on('error', (err: any) => {
+    console.error('Server listen error:', err);
   });
 }
 
