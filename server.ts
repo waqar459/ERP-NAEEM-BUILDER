@@ -452,11 +452,12 @@ async function setupApp() {
   }
 
   const server = app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Naeem Builder ERP server active on http://0.0.0.0:${PORT}`);
+    console.log(`Naeem Builder ERP server successfully listening on 0.0.0.0:${PORT} (PID: ${process.pid})`);
   });
 
   server.on('error', (err: any) => {
     console.error('Server listen error:', err);
+    process.exit(1);
   });
 }
 
