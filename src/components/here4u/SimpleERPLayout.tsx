@@ -48,6 +48,7 @@ import {
 } from 'lucide-react';
 import { useERP } from '../../context/ERPContext';
 import { Ticket, UserRole } from '../../types/erp';
+import { SimpleSubViewRouter } from './SimpleSubViews';
 
 interface SimpleERPLayoutProps {
   onSelectTicket: (ticketId: string) => void;
@@ -280,24 +281,8 @@ export const SimpleERPLayout: React.FC<SimpleERPLayoutProps> = ({
 
   const handleNavClick = (navId: SimpleNavTab) => {
     setActiveNav(navId);
-    if (navId === 'DASHBOARD') return;
-    if (navId === 'BRANCH_MASTER') {
-      setSystemMode('BRANCH_MASTER');
-    } else if (navId === 'CONSOLIDATED_BILLING') {
-      setSystemMode('CONSOLIDATED_INVOICES');
-    } else if (navId === 'JOB_COSTING' || navId === 'VENDOR_MASTER') {
-      setSystemMode('VENDOR_COST_REPORT');
-    } else if (navId === 'ADMINISTRATION') {
-      setSystemMode('ADMIN_PANEL');
-    } else if (navId === 'JOB_EXPENSES' || navId === 'STAFF_ADVANCES' || navId === 'EXPENSE_APPROVAL' || navId === 'VEHICLES') {
-      setSystemMode('FIELD_EXPENSES');
-    } else if (navId === 'REPORTS') {
-      setSystemMode('ANALYTICS_GRAPHS');
-    } else if (navId === 'NOTIFICATIONS') {
+    if (navId === 'NOTIFICATIONS') {
       onOpenAuditTrail();
-    } else {
-      // For any ticket/work item nav, open relevant ticket
-      handleOpenTicket();
     }
   };
 
@@ -544,7 +529,17 @@ export const SimpleERPLayout: React.FC<SimpleERPLayoutProps> = ({
 
         {/* MAIN DASHBOARD CONTENT AREA */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-50 max-h-[calc(100vh-53px)]">
-          <div className="max-w-7xl mx-auto space-y-6">
+          {activeNav !== 'DASHBOARD' ? (
+            <div className="max-w-7xl mx-auto">
+              <SimpleSubViewRouter
+                navTab={activeNav}
+                onBackToDashboard={() => setActiveNav('DASHBOARD')}
+                onSelectTicket={onSelectTicket}
+                onOpenNewTicket={onOpenNewTicket}
+              />
+            </div>
+          ) : (
+            <div className="max-w-7xl mx-auto space-y-6">
             {/* WELCOME BANNER CARD */}
             <div className="bg-gradient-to-r from-sky-50 via-blue-50/70 to-indigo-50/60 border border-sky-200 rounded-xl p-5 relative overflow-hidden shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="z-10 max-w-xl">
@@ -641,7 +636,7 @@ export const SimpleERPLayout: React.FC<SimpleERPLayoutProps> = ({
                   </div>
                 </div>
                 <button
-                  onClick={() => handleOpenTicket()}
+                  onClick={() => handleNavClick('UBL_REQUESTS')}
                   className="mt-3 text-xs text-emerald-700 hover:text-emerald-900 font-semibold flex items-center gap-1 self-start cursor-pointer"
                 >
                   <span>View Jobs</span>
@@ -781,7 +776,7 @@ export const SimpleERPLayout: React.FC<SimpleERPLayoutProps> = ({
                       <span>Recent Jobs</span>
                     </div>
                     <button
-                      onClick={() => handleOpenTicket()}
+                      onClick={() => handleNavClick('UBL_REQUESTS')}
                       className="text-xs text-blue-600 hover:text-blue-800 font-semibold"
                     >
                       View All
@@ -911,7 +906,7 @@ export const SimpleERPLayout: React.FC<SimpleERPLayoutProps> = ({
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-slate-700 text-[11px]">
                       {todaysSiteVisits.map((item, idx) => (
-                        <tr key={idx} className="hover:bg-slate-50 cursor-pointer" onClick={() => handleOpenTicket()}>
+                        <tr key={idx} className="hover:bg-slate-50 cursor-pointer" onClick={() => handleNavClick('SITE_VISITS')}>
                           <td className="py-2 text-slate-500 font-mono">{item.time}</td>
                           <td className="py-2 text-blue-600 font-semibold">{item.jobId}</td>
                           <td className="py-2">{item.branch}</td>
@@ -955,7 +950,7 @@ export const SimpleERPLayout: React.FC<SimpleERPLayoutProps> = ({
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-slate-700 text-[11px]">
                       {recentInvoices.map((item, idx) => (
-                        <tr key={idx} className="hover:bg-slate-50 cursor-pointer" onClick={() => handleOpenTicket()}>
+                        <tr key={idx} className="hover:bg-slate-50 cursor-pointer" onClick={() => handleNavClick('INDIVIDUAL_INVOICES')}>
                           <td className="py-2 text-blue-600 font-semibold">{item.invoiceNo}</td>
                           <td className="py-2">{item.jobId}</td>
                           <td className="py-2 font-medium">{item.amount}</td>
@@ -998,7 +993,7 @@ export const SimpleERPLayout: React.FC<SimpleERPLayoutProps> = ({
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-slate-700 text-[11px]">
                       {recentPayments.map((item, idx) => (
-                        <tr key={idx} className="hover:bg-slate-50 cursor-pointer" onClick={() => handleOpenTicket()}>
+                        <tr key={idx} className="hover:bg-slate-50 cursor-pointer" onClick={() => handleNavClick('BANK_RECEIPT')}>
                           <td className="py-2 text-slate-500 font-mono">{item.date}</td>
                           <td className="py-2 text-slate-800 font-medium">{item.ref}</td>
                           <td className="py-2 font-medium">{item.amount}</td>
@@ -1015,7 +1010,8 @@ export const SimpleERPLayout: React.FC<SimpleERPLayoutProps> = ({
               </div>
             </div>
           </div>
-        </main>
+        )}
+      </main>
       </div>
     </div>
   );
