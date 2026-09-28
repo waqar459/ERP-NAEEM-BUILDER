@@ -424,13 +424,16 @@ async function setupApp() {
   }
 
   function serveStaticDist() {
-    // When running bundled server from dist/server.cjs: __dirname is /app/dist
-    // When running from root: process.cwd() is /app
+    // Robust search for dist directory across runtime execution contexts:
+    // 1. Current working directory / dist (e.g. process.cwd() = project root)
+    // 2. Directory of compiled server.cjs (e.g. __dirname = /app/dist)
+    // 3. Subdirectory of __dirname (if executed from parent)
     const candidateDirs = [
-      path.resolve(__dirname),
       path.resolve(process.cwd(), 'dist'),
+      path.resolve(__dirname),
       path.resolve(__dirname, 'dist')
     ];
+
     const distPath = candidateDirs.find((dir) => {
       try {
         return require('fs').existsSync(path.join(dir, 'index.html'));
@@ -440,14 +443,29 @@ async function setupApp() {
     }) || path.resolve(process.cwd(), 'dist');
 
     console.log(`Serving static production files from: ${distPath}`);
-    app.use(express.static(distPath));
 
-    // Express 4/5 compatible SPA fallback that strictly avoids intercepting /api routes
+    // Serve static assets with index: false to let SPA router handle root
+    app.use(express.static(distPath, {
+      index: false,
+      maxAge: '1d'
+    }));
+
+    // Explicit root handler
+    app.get('/', (_req: Request, res: Response) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+
+    // SPA fallback: Route all non-API GET requests to index.html
     app.use((req: Request, res: Response, next) => {
       if (req.method === 'GET' && !req.path.startsWith('/api')) {
         return res.sendFile(path.join(distPath, 'index.html'));
       }
       next();
+    });
+
+    // 404 handler for unmatched API routes
+    app.all('/api/*', (_req: Request, res: Response) => {
+      res.status(404).json({ error: 'API route not found' });
     });
   }
 
@@ -458,6 +476,15 @@ async function setupApp() {
   server.on('error', (err: any) => {
     console.error('Server listen error:', err);
     process.exit(1);
+  });
+
+  // Graceful shutdown signals
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM received, closing HTTP server gracefully');
+    server.close(() => {
+      console.log('HTTP server closed');
+      process.exit(0);
+    });
   });
 }
 
