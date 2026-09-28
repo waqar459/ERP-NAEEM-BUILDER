@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@media print {
+  @page {
+    margin: 8mm;
+    size: A4 portrait;
+  }
+
+  /* Reset body on print */
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 12px;
+    height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide app chrome, navigation, headers, footers, sidebars, backdrops */
+  .no-print,
+  header,
+  nav,
+  aside,
+  footer,
+  .print-hidden,
+  .modal-backdrop,
+  [data-print-hidden="true"] {
+    display: none !important;
+  }
+
+  /* Target printable root */
+  .print-document-root {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #ffffff !important;
+    overflow: visible !important;
+  }
+
+  .print-document-content {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: 1px solid #0f172a !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Ensure table borders and ink are crisp */
+  table, tr, td, th {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
